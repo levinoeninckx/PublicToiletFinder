@@ -1,6 +1,6 @@
 package edu.ap.publictoiletfinder.model
 
-class Toilet(
+data class Toilet(
     val id: Int,
     val street: String,
     val xCord: Int,

@@ -43,6 +43,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.beust:klaxon:5.5'
-
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 }
