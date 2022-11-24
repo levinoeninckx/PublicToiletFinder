@@ -57,9 +57,7 @@ class MainActivity : AppCompatActivity() {
 
                         val jsonObject = JsonParseModel.fromJson(json)
 
-                        println(jsonObject.toString())
-
-                    //parseModel = JsonParseModel.fromJson(json)!!
+                        //parseModel = JsonParseModel.fromJson(json)!!
 
                         //parseModel.features.forEach { feature -> toiletList.add(jsonParseDataFromString(feature.attributes.toString())) }
                     }

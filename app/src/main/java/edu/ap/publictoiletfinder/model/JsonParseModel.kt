@@ -59,32 +59,6 @@ data class Attributes (
     val postcode: Long?
 )
 
-enum class Doelgroep(val value: String) {
-    Man("man"),
-    ManVrouw("man/vrouw");
-
-    companion object {
-        public fun fromValue(value: String): Doelgroep = when (value) {
-            "man"       -> Man
-            "man/vrouw" -> ManVrouw
-            else        -> throw IllegalArgumentException()
-        }
-    }
-}
-
-enum class Luiertafel(val value: String) {
-    Nee("nee"),
-    NietVanToepassing("niet van toepassing");
-
-    companion object {
-        public fun fromValue(value: String): Luiertafel = when (value) {
-            "nee"                 -> Nee
-            "niet van toepassing" -> NietVanToepassing
-            else                  -> throw IllegalArgumentException()
-        }
-    }
-}
-
 data class FieldAliases (
     @Json(name = "ID")
     val id: String,
