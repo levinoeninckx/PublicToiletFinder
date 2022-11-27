@@ -37,10 +37,6 @@ class DataFetch {
                             println(json)
 
                             val jsonObject = JsonParseModel.fromJson(json)
-
-                            //parseModel = JsonParseModel.fromJson(json)!!
-
-                            //parseModel.features.forEach { feature -> toiletList.add(jsonParseDataFromString(feature.attributes.toString())) }
                         }
                     }
                 })

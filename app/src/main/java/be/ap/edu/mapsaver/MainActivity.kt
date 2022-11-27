@@ -1,14 +1,12 @@
 package be.ap.edu.mapsaver
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,12 +17,15 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import codebeautify.Attributes
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import edu.ap.publictoiletfinder.model.DataFetch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.wait
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -37,7 +38,8 @@ import org.osmdroid.views.overlay.OverlayItem
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder
-import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
 
@@ -54,6 +56,9 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        //Set the toilet markers on map
+            placeToiletMarkers()
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
         val osmConfig = Configuration.getInstance()
@@ -230,6 +235,10 @@ class MainActivity : Activity() {
         }).start()
     }
 
+    private fun calculateCoordinate(degrees: String){
+        //fmt xyz.w
+
+    }
     // AsyncTask inner class
     /*@SuppressLint("StaticFieldLeak")
     inner class MyAsyncTask : AsyncTask<URL, Int, String>() {
@@ -286,4 +295,40 @@ class MainActivity : Activity() {
             }
         }
     }*/
+    private fun degreesToDecimal(input: String): Double {
+            val direction = input[0]
+            val degrees: Int
+            val minutes: Int
+            val seconds: Int
+            if (direction == 'E' || direction == 'W') {
+                degrees = input.substring(1, 4).toInt()
+                minutes = input.substring(4, 6).toInt()
+                seconds = input.substring(6).toInt()
+            } else {
+                degrees = input.substring(1, 3).toInt()
+                minutes = input.substring(3, 5).toInt()
+                seconds = input.substring(5).toInt()
+            }
+            var decimal = (degrees + minutes.toFloat() / 60 + seconds.toFloat() / 3600).toDouble()
+            if (direction == 'W' || direction == 'S') {
+                decimal *= -1.0
+            }
+            return decimal
+        }
+
+    private fun placeToiletMarkers() {
+        val executorService: ExecutorService = Executors.newFixedThreadPool(4)
+        var toiletLocations: MutableList<GeoPoint> = mutableListOf()
+        var data: List<Attributes> = DataFetch.getToiletList(executorService)
+
+        data.map {
+            if (it.lat != null && it.long != null) {
+                val lat: Double = degreesToDecimal("E" + it.lat)
+                val long: Double = degreesToDecimal("N" + it.long)
+                println(lat)
+                addMarker(GeoPoint(lat, long), "Toilet " + it.id.toString())
+
+            }
+        }
+    }
 }
