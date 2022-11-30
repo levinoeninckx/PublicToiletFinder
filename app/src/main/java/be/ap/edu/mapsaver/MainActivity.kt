@@ -1,12 +1,16 @@
 package be.ap.edu.mapsaver
 
+import Attributes
+import Data.SqlLite
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,11 +21,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import codebeautify.Attributes
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
-import edu.ap.publictoiletfinder.model.DataFetch
+import edu.ap.publictoiletfinder.model.DataFetcher
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -38,6 +41,7 @@ import org.osmdroid.views.overlay.OverlayItem
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder
+import java.util.Dictionary
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -52,13 +56,11 @@ class MainActivity : Activity() {
     private val urlNominatim = "https://nominatim.openstreetmap.org/"
     private var notificationManager: NotificationManager? = null
     private var mChannel: NotificationChannel? = null
+    private lateinit var database: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        //Set the toilet markers on map
-            placeToiletMarkers()
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
         val osmConfig = Configuration.getInstance()
@@ -90,6 +92,7 @@ class MainActivity : Activity() {
          // Permissions
         if (hasPermissions()) {
             initMap()
+            initDatabase()
         }
         else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -123,6 +126,7 @@ class MainActivity : Activity() {
         if (requestCode == 100) {
             if (hasPermissions()) {
                 initMap()
+                initDatabase()
             } else {
                 finish()
             }
@@ -160,7 +164,8 @@ class MainActivity : Activity() {
     private fun addMarker(geoPoint: GeoPoint, name: String) {
         items.add(OverlayItem(name, name, geoPoint))
         mMyLocationOverlay = ItemizedIconOverlay(items, null, applicationContext)
-        mMapView?.overlays?.add(mMyLocationOverlay)
+        mMapView.overlays.add(mMyLocationOverlay)
+        //mMapView.invalidate()
     }
 
     private fun setCenter(geoPoint: GeoPoint, name: String) {
@@ -235,99 +240,26 @@ class MainActivity : Activity() {
         }).start()
     }
 
-    private fun calculateCoordinate(degrees: String){
-        //fmt xyz.w
+    private fun initDatabase(){
+        database = openOrCreateDatabase("Toilets",0,null)
 
-    }
-    // AsyncTask inner class
-    /*@SuppressLint("StaticFieldLeak")
-    inner class MyAsyncTask : AsyncTask<URL, Int, String>() {
+        val sqlLite = SqlLite(database, URL("https://opendata.arcgis.com/api/v3/datasets/eda49af804c9467e97393ca35e34714b_8/downloads/data?format=geojson&spatialRefId=4326&where=1=1"))
+        sqlLite.getData()
+        sqlLite.fill()
 
-        private var searchReverse = false
+        val cursor = database.rawQuery("SELECT * FROM PublicToilets",null)
 
-        override fun doInBackground(vararg params: URL?): String {
+        //sqlLite.initDict()
+        val dict = sqlLite.dict
 
-            searchReverse = (params[0]!!.toString().indexOf("reverse", 0, true) > -1)
-            val client = OkHttpClient()
-            val response: Response
-            val request = Request.Builder()
-                    .url(params[0]!!)
-                    .build()
-            response = client.newCall(request).execute()
-
-            return response.body!!.string()
-        }
-
-        // vararg : variable number of arguments
-        // * : spread operator, unpacks an array into the list of values from the array
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-
-            val jsonString = StringBuilder(result!!)
-            Log.d("be.ap.edu.mapsaver", jsonString.toString())
-
-            val parser: Parser = Parser.default()
-
-            if (searchReverse) {
-                val obj = parser.parse(jsonString) as JsonObject
-
-                createNotification(R.drawable.ic_menu_compass,
-                        "Reverse lookup result",
-                        obj.string("display_name")!!,
-                        "my_channel_01")
-            }
-            else {
-                val array = parser.parse(jsonString) as JsonArray<JsonObject>
-
-                if (array.size > 0) {
-                    val obj = array[0]
-                    // mapView center must be updated here and not in doInBackground because of UIThread exception
-                    val geoPoint = GeoPoint(obj.string("lat")!!.toDouble(), obj.string("lon")!!.toDouble())
-                    setCenter(geoPoint, obj.string("display_name")!!)
-                }
-                else {
-                    Toast.makeText(applicationContext, "Address not found", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }*/
-    private fun degreesToDecimal(input: String): Double {
-            val direction = input[0]
-            val degrees: Int
-            val minutes: Int
-            val seconds: Int
-            if (direction == 'E' || direction == 'W') {
-                degrees = input.substring(1, 4).toInt()
-                minutes = input.substring(4, 6).toInt()
-                seconds = input.substring(6).toInt()
-            } else {
-                degrees = input.substring(1, 3).toInt()
-                minutes = input.substring(3, 5).toInt()
-                seconds = input.substring(5).toInt()
-            }
-            var decimal = (degrees + minutes.toFloat() / 60 + seconds.toFloat() / 3600).toDouble()
-            if (direction == 'W' || direction == 'S') {
-                decimal *= -1.0
-            }
-            return decimal
-        }
-
-    private fun placeToiletMarkers() {
-        val executorService: ExecutorService = Executors.newFixedThreadPool(4)
-        var toiletLocations: MutableList<GeoPoint> = mutableListOf()
-        var data: List<Attributes> = DataFetch.getToiletList(executorService)
-
-        data.map {
-            if (it.lat != null && it.long != null) {
-                val lat: Double = degreesToDecimal("E" + it.lat)
-                val long: Double = degreesToDecimal("N" + it.long)
-                println(lat)
-                addMarker(GeoPoint(lat, long), "Toilet " + it.id.toString())
-
+        for(toilet in dict){
+            if(!dict.isEmpty()) {
+                addMarker(
+                    GeoPoint(
+                        toilet["LATITUDE"].toString().toDouble(),
+                        toilet["LONGITUDE"].toString().toDouble()
+                    ), toilet.get("ID").toString()
+                )
             }
         }
     }
