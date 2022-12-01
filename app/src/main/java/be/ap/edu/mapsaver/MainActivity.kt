@@ -1,5 +1,7 @@
 package be.ap.edu.mapsaver
 
+import Attributes
+import Data.SqlLite
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,7 +10,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.AsyncTask
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,9 +24,11 @@ import androidx.core.content.ContextCompat
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import edu.ap.publictoiletfinder.model.DataFetcher
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.wait
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -37,7 +41,9 @@ import org.osmdroid.views.overlay.OverlayItem
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder
-import java.util.*
+import java.util.Dictionary
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
 
@@ -49,10 +55,16 @@ class MainActivity : Activity() {
     private var clearButton: Button? = null
     private val urlNominatim = "https://nominatim.openstreetmap.org/"
     private var notificationManager: NotificationManager? = null
+    lateinit var database: SQLiteDatabase
+    lateinit var sqlLite: SqlLite
     private var mChannel: NotificationChannel? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        database = openOrCreateDatabase("Toilets",0,null)
+        sqlLite = SqlLite(database)
 
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
@@ -84,7 +96,10 @@ class MainActivity : Activity() {
         }
          // Permissions
         if (hasPermissions()) {
+            initDatabase(sqlLite)
             initMap()
+            placeMarkers(sqlLite)
+            //addMarker(GeoPoint(51.213060,4.395690),"Test")
         }
         else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -117,7 +132,9 @@ class MainActivity : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100) {
             if (hasPermissions()) {
+                initDatabase(sqlLite)
                 initMap()
+                placeMarkers(sqlLite)
             } else {
                 finish()
             }
@@ -155,7 +172,8 @@ class MainActivity : Activity() {
     private fun addMarker(geoPoint: GeoPoint, name: String) {
         items.add(OverlayItem(name, name, geoPoint))
         mMyLocationOverlay = ItemizedIconOverlay(items, null, applicationContext)
-        mMapView?.overlays?.add(mMyLocationOverlay)
+        mMapView.overlays.add(mMyLocationOverlay)
+        mMapView.invalidate()
     }
 
     private fun setCenter(geoPoint: GeoPoint, name: String) {
@@ -230,60 +248,21 @@ class MainActivity : Activity() {
         }).start()
     }
 
-    // AsyncTask inner class
-    /*@SuppressLint("StaticFieldLeak")
-    inner class MyAsyncTask : AsyncTask<URL, Int, String>() {
-
-        private var searchReverse = false
-
-        override fun doInBackground(vararg params: URL?): String {
-
-            searchReverse = (params[0]!!.toString().indexOf("reverse", 0, true) > -1)
-            val client = OkHttpClient()
-            val response: Response
-            val request = Request.Builder()
-                    .url(params[0]!!)
-                    .build()
-            response = client.newCall(request).execute()
-
-            return response.body!!.string()
-        }
-
-        // vararg : variable number of arguments
-        // * : spread operator, unpacks an array into the list of values from the array
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-
-            val jsonString = StringBuilder(result!!)
-            Log.d("be.ap.edu.mapsaver", jsonString.toString())
-
-            val parser: Parser = Parser.default()
-
-            if (searchReverse) {
-                val obj = parser.parse(jsonString) as JsonObject
-
-                createNotification(R.drawable.ic_menu_compass,
-                        "Reverse lookup result",
-                        obj.string("display_name")!!,
-                        "my_channel_01")
+    private fun initDatabase(sqlLite: SqlLite){
+            sqlLite.getData()
+            sqlLite.fill()
+            sqlLite.initList()
+    }
+    private fun placeMarkers(sqlLite: SqlLite){
+        val dict = sqlLite.gepointList
+        var count = 1
+        for(point in dict){
+            if(!dict.isEmpty()) {
+                addMarker(
+                    point, "Toilet " + count
+                )
             }
-            else {
-                val array = parser.parse(jsonString) as JsonArray<JsonObject>
-
-                if (array.size > 0) {
-                    val obj = array[0]
-                    // mapView center must be updated here and not in doInBackground because of UIThread exception
-                    val geoPoint = GeoPoint(obj.string("lat")!!.toDouble(), obj.string("lon")!!.toDouble())
-                    setCenter(geoPoint, obj.string("display_name")!!)
-                }
-                else {
-                    Toast.makeText(applicationContext, "Address not found", Toast.LENGTH_SHORT).show()
-                }
-            }
+            count += 1
         }
-    }*/
+    }
 }
