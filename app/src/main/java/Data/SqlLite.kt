@@ -24,7 +24,6 @@ class SqlLite constructor(val db: SQLiteDatabase){
         values.put("LONGITUDE", obj.yCoord)
         db.insert("PublicToilets", null, values)
     }
-
     fun createTable(){
         var createTable = "CREATE TABLE IF NOT EXISTS PublicToilets (\n" +
                 "\tID INTEGER PRIMARY KEY UNIQUE NOT NULL,\n" +
@@ -61,6 +60,5 @@ class SqlLite constructor(val db: SQLiteDatabase){
         val dataFetcher = DataFetcher()
         dataFetcher.getJsonObject()
         toiletList = dataFetcher.toiletList
-        println(toiletList.size)
     }
 }
