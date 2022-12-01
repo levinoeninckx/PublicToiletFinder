@@ -65,6 +65,7 @@ class MainActivity : Activity() {
 
         database = openOrCreateDatabase("Toilets",0,null)
         sqlLite = SqlLite(database)
+
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
         val osmConfig = Configuration.getInstance()
@@ -250,22 +251,18 @@ class MainActivity : Activity() {
     private fun initDatabase(sqlLite: SqlLite){
             sqlLite.getData()
             sqlLite.fill()
-            sqlLite.initDict()
+            sqlLite.initList()
     }
     private fun placeMarkers(sqlLite: SqlLite){
-        val dict = sqlLite.dict
-        println(dict.size)
-        for(toilet in dict){
-            println(toilet.get("LATITUDE"))
-            println(toilet.get("LONGITUDE"))
+        val dict = sqlLite.gepointList
+        var count = 1
+        for(point in dict){
             if(!dict.isEmpty()) {
                 addMarker(
-                    GeoPoint(
-                        toilet["LATITUDE"].toString().toDouble(),
-                        toilet["LONGITUDE"].toString().toDouble()
-                    ), toilet.get("ID").toString()
+                    point, "Toilet " + count
                 )
             }
+            count += 1
         }
     }
 }

@@ -6,11 +6,12 @@ import android.util.Log
 import android.database.sqlite.SQLiteDatabase
 import edu.ap.publictoiletfinder.model.DataFetcher
 import okhttp3.*
+import org.osmdroid.util.GeoPoint
 import java.net.URL
 
 class SqlLite constructor(val db: SQLiteDatabase){
     lateinit var toiletList: ArrayList<Attributes>
-    var dict:List<HashMap<String, Any>> = mutableListOf()
+    lateinit var gepointList: ArrayList<GeoPoint>
 
     private fun insertObject(obj: Attributes){
         val values = ContentValues()
@@ -42,20 +43,14 @@ class SqlLite constructor(val db: SQLiteDatabase){
                 insertObject(it)
             }
     }
-    fun initDict() {
+    fun initList() {
         createTable()
         val cursor = db.rawQuery("SELECT * FROM PublicToilets", null)
-        val colNames = cursor.columnNames
-        var count = 0
+        gepointList = arrayListOf()
         if (cursor.moveToFirst()) {
             do {
                 try {
-                    (dict as ArrayList<HashMap<String, Any>>).add(HashMap<String, Any>())
-                    for (i in 1..colNames.count() - 1) {
-                        val data: String = cursor.getString(i)
-                        dict[count][colNames[i]] = data
-                    }
-                    count += 1
+                    gepointList.add(GeoPoint(cursor.getString(6).toDouble(),cursor.getString(5).toDouble()))
                 } catch(e: Exception){
                     e.printStackTrace()
                 }
