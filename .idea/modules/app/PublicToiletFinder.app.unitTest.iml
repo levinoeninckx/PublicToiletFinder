@@ -54,7 +54,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/7d84f612230026a773a068aa8fdbeb5d/transformed/jetified-kotlin-stdlib-1.4.31.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/0cc8ee38687dc9a29814367195298a3c/transformed/jetified-kotlin-stdlib-common-1.4.31.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/1fa0524165caa8e54f2f108a56493c4a/transformed/jetified-annotations-13.0.jar</arg>
-                <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-29/android.jar</arg>
+                <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-28/android.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/31.0.0/core-lambda-stubs.jar</arg>
               </args>
             </stringArg>
@@ -116,7 +116,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../app/src/test/java" isTestSource="true" />
     </content>
     <content url="file://$MODULE_DIR$/../../../app/src/testDebug" />
-    <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="PublicToiletFinder.app.main" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.annotation:annotation:1.1.0" level="project" />
