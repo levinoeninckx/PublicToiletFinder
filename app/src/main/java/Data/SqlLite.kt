@@ -8,13 +8,12 @@ import edu.ap.publictoiletfinder.model.DataFetcher
 import okhttp3.*
 import java.net.URL
 
-class SqlLite constructor(val db: SQLiteDatabase, val url: URL){
+class SqlLite constructor(val db: SQLiteDatabase){
     lateinit var toiletList: ArrayList<Attributes>
     var dict:List<HashMap<String, Any>> = mutableListOf()
 
     private fun insertObject(obj: Attributes){
         val values = ContentValues()
-
         values.put("ID",  obj.id)
         values.put("STRAAT", obj.straat)
         values.put("HUISNUMMER", obj.huisnummer)
@@ -22,7 +21,7 @@ class SqlLite constructor(val db: SQLiteDatabase, val url: URL){
         values.put("LUIERTAFEL", obj.luiertafel)
         values.put("LATITUDE", obj.xCoord)
         values.put("LONGITUDE", obj.yCoord)
-        db.insert("Toilets", null, values)
+        db.insert("PublicToilets", null, values)
     }
 
     fun createTable(){
@@ -50,12 +49,16 @@ class SqlLite constructor(val db: SQLiteDatabase, val url: URL){
         var count = 0
         if (cursor.moveToFirst()) {
             do {
-                (dict as ArrayList<HashMap<String, Any>>).add(HashMap<String, Any>())
-                for (i in 1..colNames.count() - 1) {
-                    val data: String = cursor.getString(i)
-                    dict[count][colNames[i]] = data
+                try {
+                    (dict as ArrayList<HashMap<String, Any>>).add(HashMap<String, Any>())
+                    for (i in 1..colNames.count() - 1) {
+                        val data: String = cursor.getString(i)
+                        dict[count][colNames[i]] = data
+                    }
+                    count += 1
+                } catch(e: Exception){
+                    e.printStackTrace()
                 }
-                count += 1
             } while (cursor.moveToNext())
         }
     }
@@ -63,5 +66,6 @@ class SqlLite constructor(val db: SQLiteDatabase, val url: URL){
         val dataFetcher = DataFetcher()
         dataFetcher.getJsonObject()
         toiletList = dataFetcher.toiletList
+        println(toiletList.size)
     }
 }

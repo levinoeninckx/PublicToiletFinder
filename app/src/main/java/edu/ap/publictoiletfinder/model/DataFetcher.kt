@@ -31,8 +31,9 @@ class DataFetcher {
                                 val jsonObject = JsonParseModel.fromJson(json)
 
                                 jsonObject!!.features.forEach {
-                                    toiletList.add(it.attributes)
-                                    println(it.attributes.straat)
+                                    val attributes = Attributes(it.attributes.id,it.attributes.straat,it.attributes.huisnummer,it.attributes.doelgroep,it.attributes.integraal_toegankelijk,it.geometry.x,it.geometry.y,it.attributes.postcode,it.attributes.luiertafel)
+                                    toiletList.add(attributes)
+                                    println(attributes.id)
                                 }
                             }
                         }

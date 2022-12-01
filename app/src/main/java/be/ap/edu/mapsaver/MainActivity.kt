@@ -55,12 +55,16 @@ class MainActivity : Activity() {
     private var clearButton: Button? = null
     private val urlNominatim = "https://nominatim.openstreetmap.org/"
     private var notificationManager: NotificationManager? = null
+    lateinit var database: SQLiteDatabase
+    lateinit var sqlLite: SqlLite
     private var mChannel: NotificationChannel? = null
-    private lateinit var database: SQLiteDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        database = openOrCreateDatabase("Toilets",0,null)
+        sqlLite = SqlLite(database)
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
         val osmConfig = Configuration.getInstance()
@@ -91,8 +95,10 @@ class MainActivity : Activity() {
         }
          // Permissions
         if (hasPermissions()) {
+            initDatabase(sqlLite)
             initMap()
-            initDatabase()
+            placeMarkers(sqlLite)
+            //addMarker(GeoPoint(51.213060,4.395690),"Test")
         }
         else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -125,8 +131,9 @@ class MainActivity : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100) {
             if (hasPermissions()) {
+                initDatabase(sqlLite)
                 initMap()
-                initDatabase()
+                placeMarkers(sqlLite)
             } else {
                 finish()
             }
@@ -165,7 +172,7 @@ class MainActivity : Activity() {
         items.add(OverlayItem(name, name, geoPoint))
         mMyLocationOverlay = ItemizedIconOverlay(items, null, applicationContext)
         mMapView.overlays.add(mMyLocationOverlay)
-        //mMapView.invalidate()
+        mMapView.invalidate()
     }
 
     private fun setCenter(geoPoint: GeoPoint, name: String) {
@@ -240,19 +247,17 @@ class MainActivity : Activity() {
         }).start()
     }
 
-    private fun initDatabase(){
-        database = openOrCreateDatabase("Toilets",0,null)
-
-        val sqlLite = SqlLite(database, URL("https://opendata.arcgis.com/api/v3/datasets/eda49af804c9467e97393ca35e34714b_8/downloads/data?format=geojson&spatialRefId=4326&where=1=1"))
-        sqlLite.getData()
-        sqlLite.fill()
-
-        val cursor = database.rawQuery("SELECT * FROM PublicToilets",null)
-
-        //sqlLite.initDict()
+    private fun initDatabase(sqlLite: SqlLite){
+            sqlLite.getData()
+            sqlLite.fill()
+            sqlLite.initDict()
+    }
+    private fun placeMarkers(sqlLite: SqlLite){
         val dict = sqlLite.dict
-
+        println(dict.size)
         for(toilet in dict){
+            println(toilet.get("LATITUDE"))
+            println(toilet.get("LONGITUDE"))
             if(!dict.isEmpty()) {
                 addMarker(
                     GeoPoint(
