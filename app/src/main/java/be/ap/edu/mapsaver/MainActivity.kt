@@ -1,11 +1,8 @@
 package be.ap.edu.mapsaver
 
-import Attributes
 import Data.SqlLite
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -19,16 +16,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
-import edu.ap.publictoiletfinder.model.DataFetcher
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.internal.wait
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -38,12 +32,11 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay
 import org.osmdroid.views.overlay.ItemizedOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder
-import java.util.Dictionary
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
 
@@ -58,6 +51,7 @@ class MainActivity : Activity() {
     lateinit var database: SQLiteDatabase
     lateinit var sqlLite: SqlLite
     private var mChannel: NotificationChannel? = null
+    private var ownLocationOverlay: MyLocationNewOverlay? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -164,9 +158,15 @@ class MainActivity : Activity() {
         //val miniMapOverlay = MinimapOverlay(this, mMapView!!.tileRequestCompleteHandler)
         //this.mMapView?.overlays?.add(miniMapOverlay)
 
+        val context: Context = this.applicationContext
+        ownLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), mMapView);
+        this.ownLocationOverlay?.enableMyLocation();
+        mMapView.overlays.add(ownLocationOverlay)
+
         mMapView?.controller?.setZoom(17.0)
         // default = Ellermanstraat 33
         setCenter(GeoPoint(51.23020595, 4.41655480828479), "Campus Ellermanstraat")
+
     }
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {
@@ -181,7 +181,7 @@ class MainActivity : Activity() {
         addMarker(geoPoint, name)
     }
 
-    fun createNotification(iconRes: Int, title: String, body: String, channelId: String) {
+    /*fun createNotification(iconRes: Int, title: String, body: String, channelId: String) {
         notificationManager?.createNotificationChannel(mChannel!!)
         val notification: Notification = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(iconRes)
@@ -190,7 +190,7 @@ class MainActivity : Activity() {
                 .build()
 
         notificationManager?.notify(0, notification)
-    }
+    }*/
 
     override fun onPause() {
         super.onPause()
@@ -226,10 +226,10 @@ class MainActivity : Activity() {
                 if (searchReverse) {
                     val obj = parser.parse(jsonString) as JsonObject
 
-                    createNotification(R.drawable.ic_menu_compass,
+                    /*createNotification(R.drawable.ic_menu_compass,
                         "Reverse lookup result",
                         obj.string("display_name")!!,
-                        "my_channel_01")
+                        "my_channel_01")*/
                 }
                 else {
                     val array = parser.parse(jsonString) as JsonArray<JsonObject>
