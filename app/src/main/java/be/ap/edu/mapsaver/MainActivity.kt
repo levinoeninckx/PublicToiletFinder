@@ -2,12 +2,14 @@ package be.ap.edu.mapsaver
 
 import Data.SqlLite
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -136,6 +138,7 @@ class MainActivity : Activity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun initMap() {
         mMapView?.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)
         // add receiver to get location from tap
@@ -164,9 +167,11 @@ class MainActivity : Activity() {
         this.ownLocationOverlay?.enableMyLocation();
         mMapView.overlays.add(ownLocationOverlay)
 
-        mMapView?.controller?.setZoom(17.0)
-        // default = Ellermanstraat 33
-        setCenter(GeoPoint(51.23020595, 4.41655480828479), "Campus Ellermanstraat")
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        mMapView?.controller?.setZoom(14.0)
+        setCenter(GeoPoint(location.latitude, location.longitude), "My Location")
     }
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {
@@ -178,7 +183,7 @@ class MainActivity : Activity() {
 
     private fun setCenter(geoPoint: GeoPoint, name: String) {
         mMapView?.controller?.setCenter(geoPoint)
-        addMarker(geoPoint, name)
+        //addMarker(geoPoint, name)
     }
 
     /*fun createNotification(iconRes: Int, title: String, body: String, channelId: String) {
