@@ -37,7 +37,11 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/a02bf4acbe274ab8a9e9ef42f4154853/transformed/jetified-kotlin-stdlib-jdk7-1.3.50.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/615f1166dc389656885b588c40e8348a/transformed/jetified-okhttp-5.0.0-alpha.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/3ff8105d6cb85f93fac168078404c3f1/transformed/recyclerview-1.2.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/3e4bc89688ebfa940a7a9b949d40764e/transformed/jetified-play-services-maps-18.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/856f2f62944e8c6ea807b0b59c5f4021/transformed/media-1.0.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/6eac1db99db4f1f260343b515cde808d/transformed/jetified-play-services-base-18.0.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/e2e4b20db9ceabc31e3c5d98b3fae2ba/transformed/jetified-play-services-tasks-18.0.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/b7c9d5a19733570893b3caf939c76b01/transformed/jetified-play-services-basement-18.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/425945bb2c90c4ae6f295b255515460b/transformed/fragment-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/2b37d1cde89c8f1fef4e117e8209d4ed/transformed/legacy-support-core-ui-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d77b1a1a028a800d7423445f9404af9f/transformed/legacy-support-core-utils-1.0.0-api.jar</arg>
@@ -162,6 +166,10 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.cursoradapter:cursoradapter:1.0.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.fragment:fragment:1.0.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.recyclerview:recyclerview:1.2.1@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.android.gms:play-services-maps:18.1.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.android.gms:play-services-base:18.0.1@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.android.gms:play-services-basement:18.0.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.google.android.gms:play-services-tasks:18.0.1@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="PublicToiletFinder.app.main" />
 </module>

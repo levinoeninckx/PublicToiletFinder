@@ -31,6 +31,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.ItemizedIconOverlay
 import org.osmdroid.views.overlay.ItemizedOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -166,7 +167,6 @@ class MainActivity : Activity() {
         mMapView?.controller?.setZoom(17.0)
         // default = Ellermanstraat 33
         setCenter(GeoPoint(51.23020595, 4.41655480828479), "Campus Ellermanstraat")
-
     }
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {
