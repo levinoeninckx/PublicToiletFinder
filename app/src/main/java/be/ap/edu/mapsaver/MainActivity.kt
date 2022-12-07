@@ -167,6 +167,8 @@ class MainActivity : Activity() {
         this.ownLocationOverlay?.enableMyLocation();
         mMapView.overlays.add(ownLocationOverlay)
 
+
+        //OWN LOCATION
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
@@ -235,6 +237,7 @@ class MainActivity : Activity() {
                         "Reverse lookup result",
                         obj.string("display_name")!!,
                         "my_channel_01")*/
+
                 }
                 else {
                     val array = parser.parse(jsonString) as JsonArray<JsonObject>
@@ -269,5 +272,16 @@ class MainActivity : Activity() {
             }
             count += 1
         }
+    }
+
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val earthRadius = 6371000.0 // radius of the Earth in meters
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = (Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2))
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        return earthRadius * c
     }
 }
