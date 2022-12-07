@@ -275,7 +275,7 @@ class MainActivity : Activity() {
     }
 
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-        val earthRadius = 6371000.0 // radius of the Earth in meters
+        val earthRadius = 6371000.0 // radius of the Earth in meters => return answer will also be in meters
         val dLat = Math.toRadians(lat2 - lat1)
         val dLon = Math.toRadians(lon2 - lon1)
         val a = (Math.sin(dLat / 2) * Math.sin(dLat / 2)
