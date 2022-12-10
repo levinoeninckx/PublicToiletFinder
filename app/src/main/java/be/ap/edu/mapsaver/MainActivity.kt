@@ -95,7 +95,7 @@ class MainActivity : Activity() {
             startActivity(intent)
         }
 
-        clearButton = findViewById(R.id.clear_button)
+        //clearButton = findViewById(R.id.clear_button)
 //        clearButton?.setOnClickListener {
 //            mMapView?.overlays?.clear()
 //            // Redraw map
@@ -185,7 +185,7 @@ class MainActivity : Activity() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
-        mMapView?.controller?.setZoom(14.0)
+        mMapView?.controller?.setZoom(17.0)
         if (location != null) {
             setCenter(GeoPoint(location.latitude, location.longitude), "My Location")
         }
