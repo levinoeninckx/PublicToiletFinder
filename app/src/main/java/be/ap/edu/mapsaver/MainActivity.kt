@@ -7,6 +7,7 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
 import android.location.LocationManager
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -33,7 +35,6 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.ItemizedIconOverlay
 import org.osmdroid.views.overlay.ItemizedOverlay
 import org.osmdroid.views.overlay.MapEventsOverlay
-import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -41,9 +42,11 @@ import java.io.File
 import java.net.URL
 import java.net.URLEncoder
 
+
 class MainActivity : Activity() {
 
     private lateinit var mMapView: MapView
+    lateinit var fab: FloatingActionButton
     private var mMyLocationOverlay: ItemizedOverlay<OverlayItem>? = null
     private var items = ArrayList<OverlayItem>()
     private var searchField: EditText? = null
@@ -84,6 +87,14 @@ class MainActivity : Activity() {
             //task.execute(url)
             getAddressOrLocation(url)
         }
+        fab = findViewById(R.id.fab)
+
+        fab.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
+                //val intent = Intent(baseContext, )
+                startActivity(intent)
+            }
+        })
 
         clearButton = findViewById(R.id.clear_button)
         clearButton?.setOnClickListener {
@@ -173,7 +184,9 @@ class MainActivity : Activity() {
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
         mMapView?.controller?.setZoom(14.0)
-        setCenter(GeoPoint(location.latitude, location.longitude), "My Location")
+        if (location != null) {
+            setCenter(GeoPoint(location.latitude, location.longitude), "My Location")
+        }
     }
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {

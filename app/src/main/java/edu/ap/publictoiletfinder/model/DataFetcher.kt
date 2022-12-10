@@ -50,7 +50,7 @@ class DataFetcher {
                         }
                     }
                 })
-            })
+            }).start()
             return toiletList
         }
 }

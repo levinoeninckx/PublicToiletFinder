@@ -4,5 +4,19 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="MyMaterialTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Add attributes here -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+    </style>
+    <!--To fix rendering in preview -->
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">true</item>
+    </style>
 
+    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimaryDark">#56772F</color>
+    <color name="colorAccent">#BFF383</color>
 </resources>
