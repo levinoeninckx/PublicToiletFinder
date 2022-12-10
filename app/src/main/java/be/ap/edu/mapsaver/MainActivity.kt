@@ -189,7 +189,7 @@ class MainActivity : Activity() {
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {
         items.add(OverlayItem(name, name, geoPoint))
-        mMyLocationOverlay = ItemizedIconOverlay(items, null, applicationContext)
+        mMyLocationOverlay = ItemizedIconOverlay(items,null,applicationContext)
         mMapView.overlays.add(mMyLocationOverlay)
         mMapView.invalidate()
     }
