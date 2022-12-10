@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ToiletDetailsActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/toilet_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="street"
+            android:layout_marginRight="12sp"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/toilet_housenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="housNumber"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/toilet_rolstoelvriendelijklbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rolstoelvriendelijk: "
+            android:layout_marginRight="14sp"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/toilet_rolstoelvriendelijk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ja"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/toilet_vervangtafellbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Changingstation: "
+            android:layout_marginRight="14sp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/toilet_vervangtafel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ja"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/toilet_genderlbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gender"
+            android:layout_marginRight="14sp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/toilet_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M/V"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

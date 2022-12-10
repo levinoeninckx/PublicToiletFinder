@@ -31,7 +31,7 @@ class ToiletListActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
         // Create an adapter and supply the data to be displayed.
-        val adapter = ToiletListAdapter(sqlLite.retrieveDataAsList())
+        val adapter = ToiletListAdapter(this,applicationContext,sqlLite.retrieveDataAsList())
 
         // Connect the adapter with the RecyclerView.
         recyclerView.adapter = adapter

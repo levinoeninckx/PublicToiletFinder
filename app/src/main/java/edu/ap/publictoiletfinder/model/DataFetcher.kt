@@ -41,11 +41,10 @@ class DataFetcher {
                                     it.attributes.integraal_toegankelijk,
                                     it.geometry.x,
                                     it.geometry.y,
-                                    it.attributes.postcode,
                                     it.attributes.luiertafel
                                 )
                                 toiletList.add(attributes)
-                                println(attributes.id)
+                                println(attributes.integraal_toegankelijk)
                             }
                         }
                     }
