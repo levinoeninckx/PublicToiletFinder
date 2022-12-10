@@ -61,4 +61,26 @@ class SqlLite constructor(val db: SQLiteDatabase){
         dataFetcher.getJsonObject()
         toiletList = dataFetcher.toiletList
     }
+    fun retrieveDataAsList(): List<Attributes> {
+        val cursor = db.rawQuery("SELECT * FROM PublicToilets", null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    toiletList.add(
+                        Attributes(
+                            cursor.getString(0).toInt(),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                        )
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } while (cursor.moveToNext())
+        }
+        return toiletList
+    }
 }

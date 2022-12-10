@@ -89,12 +89,10 @@ class MainActivity : Activity() {
         }
         fab = findViewById(R.id.fab)
 
-        fab.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                //val intent = Intent(baseContext, )
-                startActivity(intent)
-            }
-        })
+        fab.setOnClickListener {
+            val intent = Intent(baseContext, ToiletListActivity::class.java)
+            startActivity(intent)
+        }
 
         clearButton = findViewById(R.id.clear_button)
         clearButton?.setOnClickListener {

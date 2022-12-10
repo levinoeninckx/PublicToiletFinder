@@ -61,6 +61,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/6bcd33fe580421db6119fd30d14569c0/transformed/jetified-kotlin-stdlib-jdk8-1.6.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/7c903412ae4c1abab35f26a6fec52818/transformed/jetified-kotlin-stdlib-jdk7-1.6.20.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/afff9fae9d223964be7ef9622b171a5b/transformed/jetified-okhttp-5.0.0-alpha.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/fe142ede387f79a12ae737d545264cf4/transformed/recyclerview-selection-1.2.0-alpha01-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/c51a5de18ef0257639ba6bc551b4977f/transformed/recyclerview-1.2.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/07fe76abe6632e8a34243ef95a8a7c2b/transformed/constraintlayout-2.1.4-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/44169064cf4a28f69eb7c77d0877a170/transformed/media-1.0.0-api.jar</arg>
@@ -242,6 +243,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.navigation:navigation-common-ktx:2.5.3@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.navigation:navigation-ui-ktx:2.5.3@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.navigation:navigation-ui:2.5.3@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: androidx.recyclerview:recyclerview-selection:1.2.0-alpha01@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="PublicToiletFinder.app.main" />
 </module>
