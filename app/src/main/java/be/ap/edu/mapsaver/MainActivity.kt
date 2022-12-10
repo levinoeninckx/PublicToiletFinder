@@ -96,17 +96,20 @@ class MainActivity : Activity() {
         }
 
         clearButton = findViewById(R.id.clear_button)
+//        clearButton?.setOnClickListener {
+//            mMapView?.overlays?.clear()
+//            // Redraw map
+//            mMapView?.invalidate()
+//        }
+
         clearButton?.setOnClickListener {
-            mMapView?.overlays?.clear()
-            // Redraw map
-            mMapView?.invalidate()
+            placeMarkers(sqlLite)
         }
          // Permissions
         if (hasPermissions()) {
             initDatabase(sqlLite)
             initMap()
             placeMarkers(sqlLite)
-            //addMarker(GeoPoint(51.213060,4.395690),"Test")
         }
         else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -234,7 +237,6 @@ class MainActivity : Activity() {
                 .url(url)
                 .build()
             response = client.newCall(request).execute()
-
             val result = response.body!!.string()
 
             runOnUiThread {
