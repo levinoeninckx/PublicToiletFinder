@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
@@ -189,7 +190,8 @@ class MainActivity : Activity() {
 
     private fun addMarker(geoPoint: GeoPoint, name: String) {
         items.add(OverlayItem(name, name, geoPoint))
-        mMyLocationOverlay = ItemizedIconOverlay(items,null,applicationContext)
+        val markerIcon: Drawable = getDrawable(R.drawable.ic_marker)!!
+        mMyLocationOverlay = ItemizedIconOverlay(items,markerIcon, null, applicationContext)
         mMapView.overlays.add(mMyLocationOverlay)
         mMapView.invalidate()
     }
