@@ -3,6 +3,7 @@
 //   val welcome6 = Welcome6.fromJson(jsonString)
 
 import com.beust.klaxon.*
+import java.io.Serializable
 
 private fun <T> Klaxon.convert(k: kotlin.reflect.KClass<*>, fromJson: (JsonValue) -> T, toJson: (T) -> String, isUnion: Boolean = false) =
     this.converter(object: Converter {
@@ -34,7 +35,7 @@ data class Feature (
     val geometry: Geometry
 )
 
-data class Attributes (
+data class Attributes(
     @Json(name = "ID", serializeNull = false)
     val id: Int,
 
@@ -56,12 +57,10 @@ data class Attributes (
     @Json(name = "Y_COORD",serializeNull = false)
     val yCoord: Double? = null,
 
-    @Json(name = "POSTCODE",serializeNull = false)
-    val postcode: Int? = null,
-
     @Json(name = "LUIERTAFEL",serializeNull = false)
     val luiertafel: String? = null
-)
+) : Serializable {
+}
 
 data class Geometry (
     val x: Double,

@@ -20,6 +20,7 @@ class SqlLite constructor(val db: SQLiteDatabase){
         values.put("HUISNUMMER", obj.huisnummer)
         values.put("DOELGROEP", obj.doelgroep)
         values.put("LUIERTAFEL", obj.luiertafel)
+        values.put("INTEGRAAL_TOEGANKELIJK", obj.integraal_toegankelijk)
         values.put("LATITUDE", obj.xCoord)
         values.put("LONGITUDE", obj.yCoord)
         db.insert("PublicToilets", null, values)
@@ -30,6 +31,7 @@ class SqlLite constructor(val db: SQLiteDatabase){
                 "\tSTRAAT TEXT,\n" +
                 "\tHUISNUMMER TEXT,\n" +
                 "\tDOELGROEP TEXT,\n" +
+                "\tINTEGRAAL_TOEGANKELIJK TEXT,\n" +
                 "\tLUIERTAFEL TEXT,\n" +
                 "\tLATITUDE DOUBLE NOT NULL,\n" +
                 "\tLONGITUDE DOUBLE NOT NULL\n" +
@@ -49,7 +51,7 @@ class SqlLite constructor(val db: SQLiteDatabase){
         if (cursor.moveToFirst()) {
             do {
                 try {
-                    gepointList.add(GeoPoint(cursor.getString(6).toDouble(),cursor.getString(5).toDouble()))
+                    gepointList.add(GeoPoint(cursor.getString(7).toDouble(),cursor.getString(6).toDouble()))
                 } catch(e: Exception){
                     e.printStackTrace()
                 }
@@ -74,6 +76,7 @@ class SqlLite constructor(val db: SQLiteDatabase){
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
+                            luiertafel = cursor.getString(5)
                         )
                     )
                 } catch (e: Exception) {

@@ -3,15 +3,22 @@ package be.ap.edu.mapsaver.adapters
 import Attributes
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import be.ap.edu.mapsaver.R
 import be.ap.edu.mapsaver.ToiletDetailsActivity
+import be.ap.edu.mapsaver.fragments.ToiletDetailDialog
 import kotlinx.android.synthetic.main.toilet_item.view.*
 
-class ToiletListAdapter(val context: Context, var dataSet: List<Attributes>): RecyclerView.Adapter<ToiletListAdapter.ToiletListViewHolder>(){
+class ToiletListAdapter(private val activity: AppCompatActivity, val context: Context, var dataSet: List<Attributes>): RecyclerView.Adapter<ToiletListAdapter.ToiletListViewHolder>(){
     class ToiletListViewHolder(val view: View): RecyclerView.ViewHolder(view)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToiletListViewHolder {
         // create a new view
@@ -33,11 +40,11 @@ class ToiletListAdapter(val context: Context, var dataSet: List<Attributes>): Re
         }
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context,ToiletDetailsActivity::class.java)
-            intent.putExtra("toilet_street",dataSet[position].straat)
-            intent.putExtra("toilet_gender",dataSet[position].doelgroep)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
+            val fragment = ToiletDetailDialog()
+            val args = Bundle()
+            args.putSerializable("item",item)
+            fragment.arguments = args
+            fragment.show(activity.supportFragmentManager,"dialog")
         }
     }
     override fun getItemCount() = dataSet.count()
