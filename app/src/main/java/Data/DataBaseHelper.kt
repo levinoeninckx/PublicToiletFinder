@@ -30,10 +30,10 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         db?.execSQL(createTable)
 
         //Fetch data from api and store it in local list
-        toiletList = fetchData()
+        val toiletList = fetchData()
 
         //Fill the database with that data
-        fillDatabase()
+        fillDatabase(toiletList)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -57,7 +57,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         val selectionArgs = arrayOf(id.toString())
         writableDatabase.update("PublicToilets", values, selection, selectionArgs)
     }
-    fun fillDatabase(){
+    fun fillDatabase(toiletList: ArrayList<Attributes>){
         toiletList.forEach {
             insert(it)
         }
@@ -78,6 +78,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         return geopointList
     }
     fun fetchData(): ArrayList<Attributes> {
+        val toiletList: ArrayList<Attributes> = arrayListOf()
         Thread(Runnable {
             val url =
                 URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,X_COORD,Y_COORD,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")
