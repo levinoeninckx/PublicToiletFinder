@@ -58,8 +58,11 @@ data class Attributes(
     val yCoord: Double? = null,
 
     @Json(name = "LUIERTAFEL",serializeNull = false)
-    val luiertafel: String? = null
+    val luiertafel: String? = null,
+
+    var isAvailable: Boolean = true
 ) : Serializable {
+
 }
 
 data class Geometry (

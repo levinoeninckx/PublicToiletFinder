@@ -1,6 +1,6 @@
 package be.ap.edu.mapsaver
 
-import Data.SqlLite
+import Data.DataBaseHelper
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,7 +9,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Bundle
@@ -55,17 +54,15 @@ class MainActivity : Activity() {
     private var clearButton: Button? = null
     private val urlNominatim = "https://nominatim.openstreetmap.org/"
     private var notificationManager: NotificationManager? = null
-    lateinit var database: SQLiteDatabase
-    lateinit var sqlLite: SqlLite
     private var mChannel: NotificationChannel? = null
     private var ownLocationOverlay: MyLocationNewOverlay? = null
+    lateinit var databaseHelper: DataBaseHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        database = openOrCreateDatabase("Toilets",0,null)
-        sqlLite = SqlLite(database)
+        databaseHelper = DataBaseHelper(applicationContext)
 
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
@@ -103,13 +100,12 @@ class MainActivity : Activity() {
 //        }
 
         clearButton?.setOnClickListener {
-            placeMarkers(sqlLite)
+            placeMarkers()
         }
          // Permissions
         if (hasPermissions()) {
-            initDatabase(sqlLite)
             initMap()
-            placeMarkers(sqlLite)
+            placeMarkers()
         }
         else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -142,9 +138,8 @@ class MainActivity : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100) {
             if (hasPermissions()) {
-                initDatabase(sqlLite)
                 initMap()
-                placeMarkers(sqlLite)
+                placeMarkers()
             } else {
                 finish()
             }
@@ -271,13 +266,8 @@ class MainActivity : Activity() {
         }).start()
     }
 
-    private fun initDatabase(sqlLite: SqlLite){
-            sqlLite.getData()
-            sqlLite.fill()
-            sqlLite.initList()
-    }
-    private fun placeMarkers(sqlLite: SqlLite){
-        val dict = sqlLite.gepointList
+    private fun placeMarkers(){
+        val dict = databaseHelper.getGeoPoints()
         var count = 1
         for(point in dict){
             if(!dict.isEmpty()) {
