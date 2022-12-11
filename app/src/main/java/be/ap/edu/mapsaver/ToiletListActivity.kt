@@ -1,5 +1,7 @@
 package be.ap.edu.mapsaver
 
+import Attributes
+import Data.DataBaseHelper
 import Data.SqlLite
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -11,15 +13,12 @@ import be.ap.edu.mapsaver.adapters.ToiletListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ToiletListActivity : AppCompatActivity() {
-    lateinit var database: SQLiteDatabase
-    lateinit var sqlLite: SqlLite
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_toilet_list)
 
-        database = openOrCreateDatabase("Toilets",0,null)
-        sqlLite = SqlLite(database)
-        sqlLite.getData()
+        val dataBaseHelper = DataBaseHelper(applicationContext)
+        val toiletList = dataBaseHelper.getToiletList()
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
@@ -31,7 +30,7 @@ class ToiletListActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
         // Create an adapter and supply the data to be displayed.
-        val adapter = ToiletListAdapter(this,applicationContext,sqlLite.retrieveDataAsList())
+        val adapter = ToiletListAdapter(this,applicationContext,toiletList)
 
         // Connect the adapter with the RecyclerView.
         recyclerView.adapter = adapter

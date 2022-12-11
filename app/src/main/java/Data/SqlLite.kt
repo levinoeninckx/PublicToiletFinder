@@ -23,6 +23,7 @@ class SqlLite constructor(val db: SQLiteDatabase){
         values.put("INTEGRAAL_TOEGANKELIJK", obj.integraal_toegankelijk)
         values.put("LATITUDE", obj.xCoord)
         values.put("LONGITUDE", obj.yCoord)
+        values.put("AVAILABILITY", obj.isAvailable)
         db.insert("PublicToilets", null, values)
     }
     fun createTable(){
@@ -34,7 +35,8 @@ class SqlLite constructor(val db: SQLiteDatabase){
                 "\tINTEGRAAL_TOEGANKELIJK TEXT,\n" +
                 "\tLUIERTAFEL TEXT,\n" +
                 "\tLATITUDE DOUBLE NOT NULL,\n" +
-                "\tLONGITUDE DOUBLE NOT NULL\n" +
+                "\tLONGITUDE DOUBLE NOT NULL,\n" +
+                "\tAVAILABILITY BOOL NOT NULL\n" +
                 ");"
         db.execSQL(createTable)
     }
