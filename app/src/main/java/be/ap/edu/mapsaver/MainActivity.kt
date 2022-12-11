@@ -1,7 +1,6 @@
 package be.ap.edu.mapsaver
 
 import Data.DataBaseHelper
-import Data.SqlLite
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -10,7 +9,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Bundle

@@ -1,10 +1,7 @@
 package be.ap.edu.mapsaver
 
-import Attributes
 import Data.DataBaseHelper
-import Data.SqlLite
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager

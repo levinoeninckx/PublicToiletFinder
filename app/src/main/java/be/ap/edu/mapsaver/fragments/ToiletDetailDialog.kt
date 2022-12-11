@@ -2,9 +2,7 @@ package be.ap.edu.mapsaver.fragments
 
 import Attributes
 import Data.DataBaseHelper
-import Data.SqlLite
 import android.content.ContentValues
-import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
