@@ -90,4 +90,8 @@
             android:text="M/V"
             android:textSize="16sp" />
     </LinearLayout>
+    <Button
+        android:id="@+id/report_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -7,7 +7,7 @@ import android.widget.TextView
 class ToiletDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_toilet_details)
+        setContentView(R.layout.dialog_toilet_details_fragment)
 
         val toiletStreet = intent.getStringExtra("toilet_street")
         val toiletHouseNumber = intent.getStringExtra("toilet_housenumber")
