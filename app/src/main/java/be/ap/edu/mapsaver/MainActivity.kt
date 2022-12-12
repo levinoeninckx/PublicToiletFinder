@@ -46,7 +46,7 @@ import java.net.URLEncoder
 class MainActivity : Activity() {
 
     private lateinit var mMapView: MapView
-    lateinit var fab: FloatingActionButton
+    private lateinit var fab: FloatingActionButton
     private var mMyLocationOverlay: ItemizedOverlay<OverlayItem>? = null
     private var items = ArrayList<OverlayItem>()
     private var searchField: EditText? = null
@@ -75,6 +75,8 @@ class MainActivity : Activity() {
 
         setContentView(R.layout.activity_main)
         mMapView = findViewById(R.id.mapview)
+
+        placeMarkers()
 
         searchField = findViewById(R.id.search_txtview)
         searchButton = findViewById(R.id.search_button)

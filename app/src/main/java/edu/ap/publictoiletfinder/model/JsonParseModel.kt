@@ -1,6 +1,4 @@
-// To parse the JSON, install Klaxon and do:
-//
-//   val welcome6 = Welcome6.fromJson(jsonString)
+
 
 import com.beust.klaxon.*
 import java.io.Serializable
@@ -20,7 +18,7 @@ data class JsonParseModel (
     val fieldAliases: FieldAliases,
     val geometryType: String,
     val spatialReference: SpatialReference,
-    val fields: List<Field>,
+    val fields: List<Any?>,
     val features: List<Feature>
 ) {
     public fun toJson() = klaxon.toJsonString(this)
@@ -35,35 +33,29 @@ data class Feature (
     val geometry: Geometry
 )
 
-data class Attributes(
-    @Json(name = "ID", serializeNull = false)
+data class Attributes (
+    @Json(name = "ID")
     val id: Int,
 
     @Json(name = "STRAAT", serializeNull = false)
     val straat: String? = null,
 
-    @Json(name = "HUISNUMMER",serializeNull = false)
-    val huisnummer: String,
-
-    @Json(name = "DOELGROEP",serializeNull = false)
-    val doelgroep: String? = null,
+    @Json(name = "HUISNUMMER", serializeNull = false)
+    val huisnummer: String? = null,
 
     @Json(name = "INTEGRAAL_TOEGANKELIJK", serializeNull = false)
-    val integraal_toegankelijk: String? = null,
+    val integraalToegankelijk: String? = null,
 
-    @Json(name = "X_COORD",serializeNull = false)
-    val xCoord: Double? = null,
-
-    @Json(name = "Y_COORD",serializeNull = false)
-    val yCoord: Double? = null,
-
-    @Json(name = "LUIERTAFEL",serializeNull = false)
+    @Json(name = "LUIERTAFEL", serializeNull = false)
     val luiertafel: String? = null,
 
-    var isAvailable: Boolean = true
-) : Serializable {
+    @Json(name = "DOELGROEP", serializeNull = false)
+    val doelgroep: String? = null,
 
-}
+    var xCoord: Double? = null,
+    var yCoord: Double? = null,
+    var isAvailable: Boolean = true
+) : Serializable
 
 data class Geometry (
     val x: Double,
@@ -72,35 +64,22 @@ data class Geometry (
 
 data class FieldAliases (
     @Json(name = "ID", serializeNull = false)
-    val id: String?,
+    val id: String? = null,
 
     @Json(name = "STRAAT", serializeNull = false)
-    val straat: String?,
+    val straat: String? = null,
 
     @Json(name = "HUISNUMMER", serializeNull = false)
-    val huisnummer: String?,
+    val huisnummer: String? = null,
 
-    @Json(name = "DOELGROEP", serializeNull = false)
-    val doelgroep: String?,
-
-    @Json(name = "X_COORD", serializeNull = false)
-    val xCoord: String?,
-
-    @Json(name = "Y_COORD", serializeNull = false)
-    val yCoord: String?,
-
-    @Json(name = "POSTCODE", serializeNull = false)
-    val postcode: String?,
+    @Json(name = "INTEGRAAL_TOEGANKELIJK", serializeNull = false)
+    val integraalToegankelijk: String? = null,
 
     @Json(name = "LUIERTAFEL", serializeNull = false)
-    val luiertafel: String?
-)
+    val luiertafel: String? = null,
 
-data class Field (
-    val name: String,
-    val type: String,
-    val alias: String,
-    val length: Long? = null
+    @Json(name = "DOELGROEP", serializeNull = false)
+    val doelgroep: String? = null
 )
 
 data class SpatialReference (

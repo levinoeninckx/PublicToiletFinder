@@ -43,7 +43,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         values.put("HUISNUMMER", obj.huisnummer)
         values.put("DOELGROEP", obj.doelgroep)
         values.put("LUIERTAFEL", obj.luiertafel)
-        values.put("INTEGRAAL_TOEGANKELIJK", obj.integraal_toegankelijk)
+        values.put("INTEGRAAL_TOEGANKELIJK", obj.integraalToegankelijk)
         values.put("LATITUDE", obj.xCoord)
         values.put("LONGITUDE", obj.yCoord)
         values.put("AVAILABILITY", obj.isAvailable)
@@ -65,7 +65,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         if (cursor.moveToFirst()) {
             do {
                 try {
-                    geopointList.add(GeoPoint(cursor.getString(7).toDouble(),cursor.getString(6).toDouble()))
+                    geopointList.add(GeoPoint(cursor.getString(6).toDouble(),cursor.getString(7).toDouble()))
                 } catch(e: Exception){
                     e.printStackTrace()
                 }
@@ -74,10 +74,10 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         cursor.close()
         return geopointList as ArrayList<GeoPoint>
     }
-    fun fetchData() {
+    private fun fetchData() {
         toiletList = arrayListOf<Attributes>()
             val url =
-                URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,X_COORD,Y_COORD,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")
+                URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")
             var client = OkHttpClient()
             val request: Request = Request.Builder().url(url).build()
         Thread {
@@ -85,7 +85,6 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
                 }
-
                 override fun onResponse(call: Call, response: Response) {
                     response.use {
                         if (!response.isSuccessful) throw IOException("Unexpected code $response")
@@ -95,16 +94,8 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
                         val jsonObject = JsonParseModel.fromJson(json)
 
                         jsonObject!!.features.forEach {
-                            val attributes = Attributes(
-                                it.attributes.id,
-                                it.attributes.straat,
-                                it.attributes.huisnummer,
-                                it.attributes.doelgroep,
-                                it.attributes.integraal_toegankelijk,
-                                it.geometry.x,
-                                it.geometry.y,
-                                it.attributes.luiertafel
-                            )
+                            it.attributes.yCoord = it.geometry.x
+                            it.attributes.xCoord = it.geometry.y
                             insert(it.attributes)
                         }
                     }
@@ -118,15 +109,19 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         if (cursor.moveToFirst()) {
             do {
                 try {
+                    val toilet = Attributes(
+                        cursor.getString(0).toInt(),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(3),
+                        cursor.getString(6).toDouble(),
+                        cursor.getString(7).toDouble(),
+                    )
+                    if(cursor.getString(8) == "0") toilet.isAvailable = false
                     toiletList.add(
-                        Attributes(
-                            cursor.getString(0).toInt(),
-                            cursor.getString(1),
-                            cursor.getString(2),
-                            cursor.getString(3),
-                            cursor.getString(4),
-                            luiertafel = cursor.getString(5)
-                        )
+                        toilet
                     )
                 } catch (e: Exception) {
                     e.printStackTrace()
