@@ -145,7 +145,6 @@ class MainActivity : Activity() {
             }
         }
     }
-
     @SuppressLint("MissingPermission")
     private fun initMap() {
         mMapView?.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)
@@ -185,7 +184,6 @@ class MainActivity : Activity() {
             setCenter(GeoPoint(location.latitude, location.longitude), "My Location")
         }
     }
-
     private fun addMarker(geoPoint: GeoPoint, name: String) {
         items.add(OverlayItem(name, name, geoPoint))
         val markerIcon: Drawable = getDrawable(R.drawable.ic_marker)!!
@@ -193,12 +191,10 @@ class MainActivity : Activity() {
         mMapView.overlays.add(mMyLocationOverlay)
         mMapView.invalidate()
     }
-
     private fun setCenter(geoPoint: GeoPoint, name: String) {
         mMapView?.controller?.setCenter(geoPoint)
         //addMarker(geoPoint, name)
     }
-
     /*fun createNotification(iconRes: Int, title: String, body: String, channelId: String) {
         notificationManager?.createNotificationChannel(mChannel!!)
         val notification: Notification = NotificationCompat.Builder(this, channelId)
@@ -209,21 +205,16 @@ class MainActivity : Activity() {
 
         notificationManager?.notify(0, notification)
     }*/
-
     override fun onPause() {
         super.onPause()
         mMapView?.onPause()
     }
-
     override fun onResume() {
         super.onResume()
         mMapView?.onResume()
     }
-
     private fun getAddressOrLocation(url : URL) {
-
         var searchReverse = false
-
         Thread(Runnable {
             searchReverse = (url.toString().indexOf("reverse", 0, true) > -1)
             val client = OkHttpClient()
@@ -247,7 +238,6 @@ class MainActivity : Activity() {
                         "Reverse lookup result",
                         obj.string("display_name")!!,
                         "my_channel_01")*/
-
                 }
                 else {
                     val array = parser.parse(jsonString) as JsonArray<JsonObject>
@@ -265,7 +255,6 @@ class MainActivity : Activity() {
             }
         }).start()
     }
-
     private fun placeMarkers(){
         val dict = databaseHelper.getGeoPoints()
         var count = 1
@@ -278,7 +267,6 @@ class MainActivity : Activity() {
             count += 1
         }
     }
-
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         val earthRadius = 6371000.0 // radius of the Earth in meters => return answer will also be in meters
         val dLat = Math.toRadians(lat2 - lat1)

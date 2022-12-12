@@ -30,10 +30,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         db?.execSQL(createTable)
 
         //Fetch data from api and store it in local list
-        val toiletList = fetchData()
-
-        //Fill the database with that data
-        fillDatabase(toiletList)
+        fetchData()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -75,15 +72,15 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
             } while (cursor.moveToNext())
         }
         cursor.close()
-        return geopointList
+        return geopointList as ArrayList<GeoPoint>
     }
-    fun fetchData(): ArrayList<Attributes> {
-        val toiletList: ArrayList<Attributes> = arrayListOf()
-        Thread(Runnable {
+    fun fetchData() {
+        toiletList = arrayListOf<Attributes>()
             val url =
                 URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,X_COORD,Y_COORD,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")
             var client = OkHttpClient()
             val request: Request = Request.Builder().url(url).build()
+        Thread {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()
@@ -108,13 +105,12 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
                                 it.geometry.y,
                                 it.attributes.luiertafel
                             )
-                            toiletList.add(attributes)
+                            insert(it.attributes)
                         }
                     }
                 }
             })
-        }).start()
-        return toiletList
+        }.start()
     }
     fun getToiletList(): ArrayList<Attributes>{
         toiletList = arrayListOf()
