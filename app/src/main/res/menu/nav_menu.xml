@@ -4,4 +4,8 @@
         android:id="@+id/list"
         android:icon="@drawable/ic_list"
         android:title="List"  />
+    <item
+        android:id="@+id/map"
+        android:title="map"
+        android:icon="@drawable/ic_map"/>
 </menu>
