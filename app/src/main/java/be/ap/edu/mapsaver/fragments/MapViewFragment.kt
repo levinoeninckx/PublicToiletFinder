@@ -1,5 +1,6 @@
 package be.ap.edu.mapsaver.fragments
 
+import Attributes
 import Data.DataBaseHelper
 import android.Manifest
 import android.annotation.SuppressLint
@@ -46,7 +47,7 @@ import java.net.URL
 import java.net.URLEncoder
 
 
-class MapViewFragment : Fragment() {
+class MapViewFragment(val geopointList: ArrayList<GeoPoint>) : Fragment() {
     private lateinit var mMapView: MapView
     private var mMyLocationOverlay: ItemizedOverlay<OverlayItem>? = null
     private var items = ArrayList<OverlayItem>()
@@ -57,7 +58,6 @@ class MapViewFragment : Fragment() {
     private var notificationManager: NotificationManager? = null
     private var mChannel: NotificationChannel? = null
     private var ownLocationOverlay: MyLocationNewOverlay? = null
-    lateinit var databaseHelper: DataBaseHelper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,7 +68,6 @@ class MapViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        databaseHelper = DataBaseHelper(context?.applicationContext!!)
 
         // Problem with SQLite db, solution :
         // https://stackoverflow.com/questions/40100080/osmdroid-maps-not-loading-on-my-device
@@ -262,10 +261,9 @@ class MapViewFragment : Fragment() {
         }.start()
     }
     private fun placeMarkers(){
-        val dict = databaseHelper.getGeoPoints()
         var count = 1
-        for(point in dict){
-            if(!dict.isEmpty()) {
+        for(point in geopointList){
+            if(!geopointList.isEmpty()) {
                 addMarker(
                     point, "Toilet " + count
                 )

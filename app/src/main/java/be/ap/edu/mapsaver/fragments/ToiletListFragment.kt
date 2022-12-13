@@ -1,7 +1,7 @@
 package be.ap.edu.mapsaver.fragments
 
+import Attributes
 import Data.DataBaseHelper
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import be.ap.edu.mapsaver.MainActivity
 import be.ap.edu.mapsaver.R
 import be.ap.edu.mapsaver.adapters.ToiletListAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ToiletListFragment : Fragment() {
+class ToiletListFragment(val toiletList: ArrayList<Attributes>) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,8 +24,6 @@ class ToiletListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dataBaseHelper = DataBaseHelper(requireContext().applicationContext)
-        val toiletList = dataBaseHelper.getToiletList()
 
         // Get a handle to the RecyclerView.
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
