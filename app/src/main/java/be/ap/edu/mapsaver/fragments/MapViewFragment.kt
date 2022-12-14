@@ -93,7 +93,6 @@ class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
             //task.execute(url)
             getAddressOrLocation(url)
         }
-
         //clearButton = findViewById(R.id.clear_button)
 //        clearButton?.setOnClickListener {
 //            mMapView?.overlays?.clear()
@@ -240,11 +239,6 @@ class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
 
                 if (searchReverse) {
                     val obj = parser.parse(jsonString) as JsonObject
-
-                    /*createNotification(R.drawable.ic_menu_compass,
-                        "Reverse lookup result",
-                        obj.string("display_name")!!,
-                        "my_channel_01")*/
                 }
                 else {
                     val array = parser.parse(jsonString) as JsonArray<JsonObject>
@@ -273,16 +267,6 @@ class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
             count += 1
         }
     }
-    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-        val earthRadius = 6371000.0 // radius of the Earth in meters => return answer will also be in meters
-        val dLat = Math.toRadians(lat2 - lat1)
-        val dLon = Math.toRadians(lon2 - lon1)
-        val a = (Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2))
-        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        return earthRadius * c
-    }
     private fun getGeoPoints(toiletList: ArrayList<Attributes>): ArrayList<GeoPoint> {
         val geopointList = mutableListOf<GeoPoint>()
 
@@ -291,5 +275,8 @@ class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
         }
 
         return geopointList as ArrayList<GeoPoint>
+    }
+    private fun calculateDistance(pointA: GeoPoint, pointB: GeoPoint): Double {
+        return pointA.distanceToAsDouble(pointB)
     }
 }
