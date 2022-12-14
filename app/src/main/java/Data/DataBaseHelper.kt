@@ -1,7 +1,6 @@
 package Data
 
 import Attributes
-import Toilet
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -11,7 +10,7 @@ import java.io.IOException
 import java.net.URL
 
 class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,1) {
-    private lateinit var toiletList: ArrayList<Toilet>
+    private lateinit var toiletList: ArrayList<Attributes>
 
     override fun onCreate(db: SQLiteDatabase?) {
         var createTable = "CREATE TABLE IF NOT EXISTS PublicToilets (\n" +
@@ -73,8 +72,8 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
                         val jsonObject = JsonParseModel.fromJson(json)
 
                         jsonObject!!.features.forEach {
-                            it.attributes!!.yCoord = it.geometry!!.coordinates[1]
-                            it.attributes.xCoord = it.geometry.coordinates[0]
+                            it.attributes!!.yCoord = it.geometry!!.x
+                            it.attributes.xCoord = it.geometry.y
                             insert(it.attributes)
                         }
                     }
@@ -82,13 +81,13 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
             })
         }.start()
     }
-    fun getToiletList(): ArrayList<Toilet>{
+    fun getToiletList(): ArrayList<Attributes>{
         toiletList = arrayListOf()
         val cursor = readableDatabase.rawQuery("SELECT * FROM PublicToilets", null)
         if (cursor.moveToFirst()) {
             do {
                 try {
-                    val toilet = Toilet(
+                    val toilet = Attributes(
                         cursor.getString(0).toInt(),
                         cursor.getString(1),
                         cursor.getString(2),
