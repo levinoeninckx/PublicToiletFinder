@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/map/baseline_map_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/baby_changing_station/baseline_baby_changing_station_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_map" />
+                            <entry key="outputName" value="ic_changing_station" />
                             <entry key="sourceFile" value="C:\Users\levin\Documents\School_2022-2023\Projects\PublicToiletFinder" />
                           </map>
                         </option>
