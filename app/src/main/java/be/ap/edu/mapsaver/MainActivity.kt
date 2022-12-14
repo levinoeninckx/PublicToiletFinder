@@ -1,5 +1,6 @@
 package be.ap.edu.mapsaver
 
+import Attributes
 import Data.DataBaseHelper
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         //Initialize database
         val database = DataBaseHelper(applicationContext)
 
+        //Init toiletlist
+        var toiletList = database.getToiletList()
+
         //Update if database is empty
         if(database.getToiletList().isEmpty()){
             database.fetchData()
@@ -26,22 +30,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val transaction = supportFragmentManager.beginTransaction()
-        val geopointList = database.getGeoPoints()
-        val mapView = MapViewFragment(geopointList)
+        val mapView = MapViewFragment(toiletList)
         transaction.add(R.id.container, mapView)
         transaction.commit()
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
+        //Filter
+        toiletList = toiletList.filter{it.integraalToegankelijk == "ja"} as ArrayList<Attributes>
         bottomNav.setOnNavigationItemSelectedListener  {
             when(it.itemId){
                 R.id.map -> {
-                    val geopointList = database.getGeoPoints()
-                    loadFragment(MapViewFragment(geopointList))
+                    loadFragment(MapViewFragment(toiletList))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.list -> {
-                    val toiletList = database.getToiletList()
                     loadFragment(ToiletListFragment(toiletList))
                     return@setOnNavigationItemSelectedListener true
                 }

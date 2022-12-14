@@ -54,21 +54,6 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         val selectionArgs = arrayOf(id.toString())
         writableDatabase.update("PublicToilets", values, selection, selectionArgs)
     }
-    fun getGeoPoints(): ArrayList<GeoPoint> {
-        val cursor = readableDatabase.rawQuery("SELECT * FROM PublicToilets", null)
-        geopointList = arrayListOf()
-        if (cursor.moveToFirst()) {
-            do {
-                try {
-                    geopointList.add(GeoPoint(cursor.getString(6).toDouble(),cursor.getString(7).toDouble()))
-                } catch(e: Exception){
-                    e.printStackTrace()
-                }
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        return geopointList as ArrayList<GeoPoint>
-    }
     fun fetchData() {
             val url =
                 URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")

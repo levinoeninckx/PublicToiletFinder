@@ -47,7 +47,8 @@ import java.net.URL
 import java.net.URLEncoder
 
 
-class MapViewFragment(val geopointList: ArrayList<GeoPoint>) : Fragment() {
+class MapViewFragment(val toiletList: ArrayList<Attributes>) : Fragment() {
+    lateinit var geopointList: ArrayList<GeoPoint>
     private lateinit var mMapView: MapView
     private var mMyLocationOverlay: ItemizedOverlay<OverlayItem>? = null
     private var items = ArrayList<OverlayItem>()
@@ -63,6 +64,7 @@ class MapViewFragment(val geopointList: ArrayList<GeoPoint>) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        geopointList = getGeoPoints(toiletList)
         return inflater.inflate(R.layout.fragment_map_view,container, false)
     }
 
@@ -280,5 +282,14 @@ class MapViewFragment(val geopointList: ArrayList<GeoPoint>) : Fragment() {
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2))
         val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
         return earthRadius * c
+    }
+    private fun getGeoPoints(toiletList: ArrayList<Attributes>): ArrayList<GeoPoint> {
+        val geopointList = mutableListOf<GeoPoint>()
+
+        toiletList.forEach {
+            geopointList.add(GeoPoint(it.xCoord!!,it.yCoord!!))
+        }
+
+        return geopointList as ArrayList<GeoPoint>
     }
 }
