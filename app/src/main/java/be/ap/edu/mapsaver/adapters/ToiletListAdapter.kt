@@ -2,19 +2,13 @@ package be.ap.edu.mapsaver.adapters
 
 import Attributes
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import be.ap.edu.mapsaver.R
-import be.ap.edu.mapsaver.ToiletDetailsActivity
 import be.ap.edu.mapsaver.fragments.ToiletDetailDialog
 import kotlinx.android.synthetic.main.toilet_item.view.*
 

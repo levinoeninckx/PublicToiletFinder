@@ -27,15 +27,8 @@ class ToiletDetailDialog: DialogFragment() {
 
             view.findViewById<TextView>(R.id.toilet_street).text = item.straat
             view.findViewById<TextView>(R.id.toilet_housenumber).text = item.huisnummer
-            if (item.integraalToegankelijk != null) {
-                view.findViewById<TextView>(R.id.toilet_rolstoelvriendelijk).text =
-                    item.integraalToegankelijk
-            }
-            if (item.luiertafel != null) {
-                view.findViewById<TextView>(R.id.toilet_vervangtafel).text = item.luiertafel
-            }
             view.findViewById<TextView>(R.id.toilet_rolstoelvriendelijk).text = item.integraalToegankelijk
-            view.findViewById<TextView>(R.id.toilet_vervangtafel).text = "/"
+            view.findViewById<TextView>(R.id.toilet_vervangtafel).text = item.luiertafel
 
 
             val database = DataBaseHelper(requireActivity().applicationContext)

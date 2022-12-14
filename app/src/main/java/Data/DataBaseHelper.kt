@@ -6,13 +6,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import okhttp3.*
-import okhttp3.internal.wait
-import org.osmdroid.util.GeoPoint
 import java.io.IOException
 import java.net.URL
 
-class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,1) {
-    private lateinit var geopointList: ArrayList<GeoPoint>
+class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"/data/data/be.ap.edu.mapsaver/Toilets.db",null,1) {
     private lateinit var toiletList: ArrayList<Attributes>
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -30,7 +27,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         db?.execSQL(createTable)
 
         //Fetch data from api and store it in local list
-        fetchData()
+        //fetchData()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -54,30 +51,11 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         val selectionArgs = arrayOf(id.toString())
         writableDatabase.update("PublicToilets", values, selection, selectionArgs)
     }
-    fun fillDatabase(toiletList: ArrayList<Attributes>){
-        toiletList.forEach {
-            insert(it)
-        }
-    }
-    fun getGeoPoints(): ArrayList<GeoPoint> {
-        val cursor = readableDatabase.rawQuery("SELECT * FROM PublicToilets", null)
-        geopointList = arrayListOf()
-        if (cursor.moveToFirst()) {
-            do {
-                try {
-                    geopointList.add(GeoPoint(cursor.getString(6).toDouble(),cursor.getString(7).toDouble()))
-                } catch(e: Exception){
-                    e.printStackTrace()
-                }
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        return geopointList as ArrayList<GeoPoint>
-    }
-    private fun fetchData() {
-        toiletList = arrayListOf<Attributes>()
+    fun fetchData() {
+        //https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?outFields=*&where=1%3D1&f=geojson
+        //https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json
             val url =
-                URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?where=1%3D1&outFields=ID,POSTCODE,INTEGRAAL_TOEGANKELIJK,DOELGROEP,HUISNUMMER,STRAAT&outSR=4326&f=json")
+                URL("https://geodata.antwerpen.be/arcgissql/rest/services/P_Portal/portal_publiek1/MapServer/8/query?outFields=*&where=1%3D1&f=geojson")
             var client = OkHttpClient()
             val request: Request = Request.Builder().url(url).build()
         Thread {
@@ -94,7 +72,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
                         val jsonObject = JsonParseModel.fromJson(json)
 
                         jsonObject!!.features.forEach {
-                            it.attributes.yCoord = it.geometry.x
+                            it.attributes!!.yCoord = it.geometry!!.x
                             it.attributes.xCoord = it.geometry.y
                             insert(it.attributes)
                         }
