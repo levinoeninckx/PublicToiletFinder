@@ -9,7 +9,7 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,1) {
+class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"/data/data/be.ap.edu.mapsaver/Toilets.db",null,1) {
     private lateinit var toiletList: ArrayList<Attributes>
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -27,7 +27,7 @@ class DataBaseHelper(context: Context): SQLiteOpenHelper(context,"Toilets",null,
         db?.execSQL(createTable)
 
         //Fetch data from api and store it in local list
-        fetchData()
+        //fetchData()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {

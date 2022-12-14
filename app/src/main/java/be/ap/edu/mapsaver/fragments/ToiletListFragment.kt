@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import be.ap.edu.mapsaver.R
 import be.ap.edu.mapsaver.adapters.ToiletListAdapter
 
-class ToiletListFragment(val toiletList: ArrayList<Attributes>) : Fragment() {
+class ToiletListFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

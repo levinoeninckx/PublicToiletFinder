@@ -47,7 +47,7 @@ import java.net.URL
 import java.net.URLEncoder
 
 
-class MapViewFragment(val toiletList: ArrayList<Attributes>) : Fragment() {
+class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
     lateinit var geopointList: ArrayList<GeoPoint>
     private lateinit var mMapView: MapView
     private var mMyLocationOverlay: ItemizedOverlay<OverlayItem>? = null

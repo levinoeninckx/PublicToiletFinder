@@ -20,10 +20,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb98d4-63ee-4112-aca7-b048e3c75626" name="Default" comment="Add navigation and swapped acitivity for fragments">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_changing_station.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_man.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_wheelchair.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_woman.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -31,15 +27,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Data/DataBaseHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Data/DataBaseHelper.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/adapters/ToiletListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/adapters/ToiletListAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/MapViewFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/MapViewFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/ToiletDetailDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/ToiletDetailDialog.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/ToiletListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/ToiletListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ap/publictoiletfinder/model/JsonParseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ap/publictoiletfinder/model/JsonParseModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +82,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="1d22xPNCd3SE8hVkBP1AUsuKkZ5" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -118,7 +111,7 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="device.picker.selection" value="Nexus_6P_API_26" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Google/AndroidStudio2021.3/device-explorer/Pixel_5_API_28 [emulator-5554]/data/data/be.ap.edu.mapsaver/databases" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Google/AndroidStudio2021.3/device-explorer/Pixel_5_API_28 [emulator-5554]/data/data/be.ap.edu.mapsaver/databases/Toilets.db" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="options.lastSelected" value="preferences.pathVariables" />
     <property name="options.searchVisible" value="true" />

@@ -2,7 +2,6 @@ package be.ap.edu.mapsaver
 
 import Attributes
 import Data.DataBaseHelper
-import Toilet
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -12,11 +11,20 @@ import be.ap.edu.mapsaver.fragments.MapViewFragment
 import be.ap.edu.mapsaver.fragments.ToiletListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlin.reflect.typeOf
 
 
 class MainActivity : AppCompatActivity() {
+    var filteredOnMan = false
+    var filteredOnWoman = false
+    var filteredOnWheelchair = false
+    var filteredOnChangingstation = false
+    lateinit var filteredToiletList: ArrayList<Attributes>
+    lateinit var toiletList: ArrayList<Attributes>
 
+    lateinit var fabFilterWoman: FloatingActionButton
+    lateinit var fabFilterMan: FloatingActionButton
+    lateinit var fabFilterChangingstation: FloatingActionButton
+    lateinit var fabFilterWheelchair: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val database = DataBaseHelper(applicationContext)
 
         //Init toiletlist
-        var toiletList = database.getToiletList()
+        toiletList = database.getToiletList()
 
         //Update if database is empty
         if(database.getToiletList().isEmpty()){
@@ -42,18 +50,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         //Get filter buttons
-        val fabFilterMan = findViewById<FloatingActionButton>(R.id.filter_men)
-        val fabFilterWoman = findViewById<FloatingActionButton>(R.id.filter_woman)
-        val fabFilterWheelchair = findViewById<FloatingActionButton>(R.id.filter_wheelchair)
-        val fabFilterChangingstation = findViewById<FloatingActionButton>(R.id.filter_changingstation)
+        fabFilterMan = findViewById<FloatingActionButton>(R.id.filter_men)
+        fabFilterWoman = findViewById<FloatingActionButton>(R.id.filter_woman)
+        fabFilterWheelchair = findViewById<FloatingActionButton>(R.id.filter_wheelchair)
+        fabFilterChangingstation = findViewById<FloatingActionButton>(R.id.filter_changingstation)
 
-        var filteredOnMan = false
-        var filteredOnWoman = false
-        var filteredOnWheelchair = false
-        var filteredOnChangingstation = false
-
-        var filteredToiletList = ArrayList<Toilet>()
-
+        filteredToiletList = toiletList
         val listener = View.OnClickListener {view ->
             when(view.id){
                 R.id.filter_men -> {
@@ -69,49 +71,26 @@ class MainActivity : AppCompatActivity() {
                     filteredOnWheelchair = !filteredOnWheelchair
                 }
             }
-            filteredToiletList = ArrayList()
-            if(filteredOnMan) {
-                fabFilterMan.setBackgroundColor(Color.RED)
-                filteredToiletList += toiletList.filter {
-                    it.doelgroep == "M/V" || it.doelgroep == "M"
-                } as ArrayList<Toilet>
-            }
-            if(filteredOnWoman) {
-                fabFilterWoman.setBackgroundColor(Color.RED)
-                filteredToiletList += toiletList.filter {
-                    it.doelgroep == "M/V" || it.doelgroep == "V"
-                } as ArrayList<Toilet>
-            }
-            if(filteredOnChangingstation) {
-                fabFilterChangingstation.setBackgroundColor(Color.RED)
-                filteredToiletList += toiletList.filter {
-                    it.luiertafel == "ja"
-                } as ArrayList<Toilet>
-            }
-            if(filteredOnWheelchair) {
-                fabFilterWheelchair.setBackgroundColor(Color.RED)
-                filteredToiletList += toiletList.filter {
-                    it.integraalToegankelijk == "ja"
-                } as ArrayList<Toilet>
-            }
-            if(filteredToiletList.isEmpty()){
-                filteredToiletList = toiletList
-            }
-            refreshFragment(filteredToiletList)
+            updateFilteredList()
         }
+
+
         fabFilterMan.setOnClickListener(listener)
         fabFilterWoman.setOnClickListener(listener)
         fabFilterChangingstation.setOnClickListener(listener)
         fabFilterWheelchair.setOnClickListener(listener)
 
         bottomNav.setOnNavigationItemSelectedListener  {
+            updateFilteredList()
             when(it.itemId){
                 R.id.map -> {
-                    loadFragment(MapViewFragment(toiletList))
+                    if(isFiltered()) loadFragment(MapViewFragment(filteredToiletList))
+                    else loadFragment(MapViewFragment(toiletList))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.list -> {
-                    loadFragment(ToiletListFragment(toiletList))
+                    if(isFiltered()) loadFragment(ToiletListFragment(filteredToiletList))
+                    else loadFragment(ToiletListFragment(toiletList))
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {
@@ -127,11 +106,11 @@ class MainActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
-    private fun refreshFragment(updatedToiletList: ArrayList<Toilet>){
+    private fun refreshFragment(updatedToiletList: ArrayList<Attributes>){
         var fragment = supportFragmentManager.findFragmentById(R.id.container)!!
 
         if(fragment is MapViewFragment){
-            fragment = fragment as MapViewFragment
+            fragment = fragment
             fragment.toiletList = updatedToiletList
         }
         if(fragment is ToiletListFragment){
@@ -143,5 +122,40 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .attach(fragment)
             .commit()
+    }
+    private fun isFiltered(): Boolean {
+        if(filteredOnMan || filteredOnWoman || filteredOnWheelchair || filteredOnChangingstation) {return true}
+        return false
+    }
+    private fun updateFilteredList(){
+        filteredToiletList = ArrayList()
+        if(filteredOnMan) {
+            fabFilterMan.setBackgroundColor(Color.RED)
+            filteredToiletList += toiletList.filter {
+                it.doelgroep == "M/V" || it.doelgroep == "M"
+            } as ArrayList<Attributes>
+        }
+        if(filteredOnWoman) {
+            fabFilterWoman.setBackgroundColor(Color.RED)
+            filteredToiletList += toiletList.filter {
+                it.doelgroep == "M/V" || it.doelgroep == "V"
+            } as ArrayList<Attributes>
+        }
+        if(filteredOnChangingstation) {
+            fabFilterChangingstation.setBackgroundColor(Color.RED)
+            filteredToiletList += toiletList.filter {
+                it.luiertafel == "ja"
+            } as ArrayList<Attributes>
+        }
+        if(filteredOnWheelchair) {
+            fabFilterWheelchair.setBackgroundColor(Color.RED)
+            filteredToiletList += toiletList.filter {
+                it.integraalToegankelijk == "ja"
+            } as ArrayList<Attributes>
+        }
+        if(filteredToiletList.isEmpty()){
+            filteredToiletList = toiletList
+        }
+        refreshFragment(filteredToiletList)
     }
 }
