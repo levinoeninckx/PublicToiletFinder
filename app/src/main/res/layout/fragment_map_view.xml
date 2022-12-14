@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="-1dp"
         android:hint="@string/hint_text"
         android:text="" />
 
@@ -26,16 +28,11 @@
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/search_txtview"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/clear_button"
+        android:layout_marginStart="249dp"
+        android:layout_marginTop="-2dp"
         android:text="@string/button_text" />
 
-    <Button
-        android:id="@+id/clear_button"
-        android:layout_width="92dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:text="Clear" />
 
 </RelativeLayout>

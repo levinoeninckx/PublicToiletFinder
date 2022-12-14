@@ -19,7 +19,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb98d4-63ee-4112-aca7-b048e3c75626" name="Default" comment="Add cross filter access">
+    <list default="true" id="e3bb98d4-63ee-4112-aca7-b048e3c75626" name="Default" comment="finish">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/MapViewFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/ap/edu/mapsaver/fragments/MapViewFragment.kt" afterDir="false" />
     </list>
@@ -286,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671042893202</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="finish">
+      <created>1671059396904</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1671059396904</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -321,6 +328,7 @@
     <MESSAGE value="Fixed data not saving on startup" />
     <MESSAGE value="moved database instance to one in main" />
     <MESSAGE value="Add cross filter access" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add cross filter access" />
+    <MESSAGE value="finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish" />
   </component>
 </project>

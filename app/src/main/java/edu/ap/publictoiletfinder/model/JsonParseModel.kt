@@ -1,6 +1,7 @@
 
 
 import com.beust.klaxon.*
+import org.osmdroid.util.GeoPoint
 import java.io.Serializable
 
 private fun <T> Klaxon.convert(k: kotlin.reflect.KClass<*>, fromJson: (JsonValue) -> T, toJson: (T) -> String, isUnion: Boolean = false) =
@@ -55,7 +56,11 @@ data class Attributes (
     var xCoord: Double? = null,
     var yCoord: Double? = null,
     var isAvailable: Boolean = true
-) : Serializable
+) : Serializable {
+    fun calculateDistance(userLocation: GeoPoint): Double {
+        return GeoPoint(xCoord!!,yCoord!!).distanceToAsDouble(userLocation)
+    }
+}
 
 data class Geometry (
     val x: Double,

@@ -11,37 +11,51 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:src="@drawable/ic_man"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/filter_woman"
+        tools:layout_editor_absoluteY="410dp"
+        android:layout_marginEnd="6dp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filter_woman"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
         android:src="@drawable/ic_woman"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/filter_changingstation"
+        tools:layout_editor_absoluteY="475dp"
+        android:layout_marginEnd="6dp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filter_wheelchair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="194dp"
         android:src="@drawable/ic_wheelchair"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_changingstation"
+        tools:layout_editor_absoluteY="595dp"
+        android:layout_marginEnd="6dp" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filter_changingstation"
-        android:src="@drawable/ic_changing_station"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_changing_station"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/filter_wheelchair"
+        tools:layout_editor_absoluteY="535dp"
+        android:layout_marginEnd="6dp" />
+
 
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-         >
+        app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 
@@ -49,8 +63,8 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/nav_menu"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_alignParentBottom="true" />
+        app:menu="@menu/nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
