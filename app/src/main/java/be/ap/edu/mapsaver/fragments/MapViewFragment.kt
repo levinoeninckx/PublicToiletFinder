@@ -276,7 +276,4 @@ class MapViewFragment(var toiletList: ArrayList<Attributes>) : Fragment() {
 
         return geopointList as ArrayList<GeoPoint>
     }
-    private fun calculateDistance(pointA: GeoPoint, pointB: GeoPoint): Double {
-        return pointA.distanceToAsDouble(pointB)
-    }
 }
